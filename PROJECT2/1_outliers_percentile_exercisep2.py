@@ -7,21 +7,66 @@ Original file is located at
     https://colab.research.google.com/drive/1F-4xVngUvK6N95_kWVh6PXd2SQeluMLz
 """
 
+import streamlit as st
 import pandas as pd
 
+# Page configuration
+st.set_page_config(page_title="Outlier Removal", page_icon="📊")
+
+st.title("📊 Outlier Removal using Percentile Method"
+        "PROJECT by Aditi Srivastava with roll no.2401221550005")
+
+# Read dataset directly
 df = pd.read_csv("AB_NYC_2019.csv")
-df.head()
 
-df.price.describe()
+st.subheader("Original Dataset")
+st.dataframe(df.head())
 
-min_thresold, max_thresold = df.price.quantile([0.01,0.999])
-min_thresold, max_thresold
+# Select numeric column
+numeric_columns = df.select_dtypes(include='number').columns
 
-df[df.price<min_thresold]
+column = st.selectbox(
+    "Select Column",
+    numeric_columns
+)
 
-df2 = df[(df.price>min_thresold)&(df.price<max_thresold)]
-df2.shape
+# Percentile values
+lower = st.slider("Lower Percentile", 0.00, 0.10, 0.01)
+upper = st.slider("Upper Percentile", 0.90, 1.00, 0.99)
 
-df2.sample(5)
+# Thresholds
+lower_limit = df[column].quantile(lower)
+upper_limit = df[column].quantile(upper)
 
-df2.price.describe()
+st.write("### Threshold Values")
+st.write("Lower Limit:", lower_limit)
+st.write("Upper Limit:", upper_limit)
+
+# Remove outliers
+clean_df = df[
+    (df[column] > lower_limit) &
+    (df[column] < upper_limit)
+]
+
+st.subheader("Cleaned Dataset")
+st.dataframe(clean_df)
+
+st.write("### Dataset Information")
+
+col1, col2, col3 = st.columns(3)
+
+col1.metric("Original Rows", len(df))
+col2.metric("Rows After Cleaning", len(clean_df))
+col3.metric("Rows Removed", len(df)-len(clean_df))
+
+# Statistics
+st.subheader("Statistics")
+st.write(clean_df[column].describe())
+
+# Download cleaned file
+st.download_button(
+    "Download Cleaned CSV",
+    clean_df.to_csv(index=False),
+    file_name="cleaned_dataset.csv",
+    mime="text/csv"
+)
