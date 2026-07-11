@@ -7,4 +7,4 @@ PROJECT6 LINK : https://irisproject6-dpd78qupnvbvzjvwacfpde.streamlit.app/
 PROJECT7 LINK:                                                                                                                                                       
 PROJECT8 LINK:https://eyesproject8-jvuj44dgc2vuuzy5funn93.streamlit.app/                                                                                                                                                                                                                                                                   
 PROJECT9 LINK: https://project9-appvl6ueswbhesysbavczud.streamlit.app/                                                                                                                                                        
-PROJECT10 LINKhttps://project10-dfxwjs8swiqjfbmkfodtdu.streamlit.app/ 
+PROJECT10 LINK:https://project10-dfxwjs8swiqjfbmkfodtdu.streamlit.app/ 
